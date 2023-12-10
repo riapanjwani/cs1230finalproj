@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE QtCreatorProject>
-<!-- Written by QtCreator 11.0.2, 2023-12-10T21:55:44. -->
+<!-- Written by QtCreator 11.0.2, 2023-12-10T22:24:06. -->
 <qtcreator>
  <data>
   <variable>EnvironmentId</variable>
@@ -406,7 +406,7 @@
     <value type="bool" key="RunConfiguration.UseCppDebuggerAuto">true</value>
     <value type="bool" key="RunConfiguration.UseLibrarySearchPath">true</value>
     <value type="bool" key="RunConfiguration.UseQmlDebuggerAuto">true</value>
-    <value type="QString" key="RunConfiguration.WorkingDirectory">/Users/afiaakosah-bempah/cs1230/projects-realtime-afiaakosah</value>
+    <value type="QString" key="RunConfiguration.WorkingDirectory">/Users/afiaakosah-bempah/cs1230/cs1230finalproj</value>
     <value type="QString" key="RunConfiguration.WorkingDirectory.default">/Users/afiaakosah-bempah/cs1230/projects-realtime-afiaakosah/build/build-projects-realtime-afiaakosah-Qt_6_5_2_for_macOS-Release</value>
    </valuemap>
    <value type="qlonglong" key="ProjectExplorer.Target.RunConfigurationCount">1</value>

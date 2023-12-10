@@ -151,13 +151,13 @@ void MainWindow::initialize() {
     ec2->setText(QStringLiteral("Extra Credit 2"));
     ec2->setChecked(false);
 
-    ec3 = new QCheckBox();
-    ec3->setText(QStringLiteral("Extra Credit 3"));
-    ec3->setChecked(false);
+//    ec3 = new QCheckBox();
+//    ec3->setText(QStringLiteral("Extra Credit 3"));
+//    ec3->setChecked(false);
 
-    ec4 = new QCheckBox();
-    ec4->setText(QStringLiteral("Extra Credit 4"));
-    ec4->setChecked(false);
+//    ec4 = new QCheckBox();
+//    ec4->setText(QStringLiteral("Extra Credit 4"));
+//    ec4->setChecked(false);
 
     vLayout->addWidget(uploadFile);
     vLayout->addWidget(saveImage);
@@ -178,8 +178,8 @@ void MainWindow::initialize() {
     vLayout->addWidget(ec_label);
     vLayout->addWidget(ec1);
     vLayout->addWidget(ec2);
-    vLayout->addWidget(ec3);
-    vLayout->addWidget(ec4);
+//    vLayout->addWidget(ec3);
+//    vLayout->addWidget(ec4);
 
     connectUIElements();
 
@@ -252,8 +252,8 @@ void MainWindow::connectFar() {
 void MainWindow::connectExtraCredit() {
     connect(ec1, &QCheckBox::clicked, this, &MainWindow::onExtraCredit1);
     connect(ec2, &QCheckBox::clicked, this, &MainWindow::onExtraCredit2);
-    connect(ec3, &QCheckBox::clicked, this, &MainWindow::onExtraCredit3);
-    connect(ec4, &QCheckBox::clicked, this, &MainWindow::onExtraCredit4);
+//    connect(ec3, &QCheckBox::clicked, this, &MainWindow::onExtraCredit3);
+//    connect(ec4, &QCheckBox::clicked, this, &MainWindow::onExtraCredit4);
 }
 
 void MainWindow::onPerPixelFilter() {
@@ -271,11 +271,8 @@ void MainWindow::onUploadFile() {
     QString configFilePath = QFileDialog::getOpenFileName(this, tr("Upload File"),
                                                           QDir::currentPath()
                                                               .append(QDir::separator())
-                                                              .append("scenefiles")
-                                                              .append(QDir::separator())
-                                                              .append("action")
-                                                              .append(QDir::separator())
-                                                              .append("required"), tr("Scene Files (*.json)"));
+                                                              .append("Basic Scene File")
+                                                          );
     if (configFilePath.isNull()) {
         std::cout << "Failed to load null scenefile." << std::endl;
         return;
