@@ -2,6 +2,8 @@
   <qresource prefix="/">
     <file alias="resources/shaders/default.frag">/Users/afiaakosah-bempah/cs1230/cs1230finalproj/resources/shaders/default.frag</file>
     <file alias="resources/shaders/default.vert">/Users/afiaakosah-bempah/cs1230/cs1230finalproj/resources/shaders/default.vert</file>
+    <file alias="resources/shaders/texture.frag">/Users/afiaakosah-bempah/cs1230/cs1230finalproj/resources/shaders/texture.frag</file>
+    <file alias="resources/shaders/texture.vert">/Users/afiaakosah-bempah/cs1230/cs1230finalproj/resources/shaders/texture.vert</file>
   </qresource>
 </RCC>
 
