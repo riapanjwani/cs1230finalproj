@@ -112,7 +112,7 @@ void Realtime::initializeGL() {
     // Tells OpenGL how big the screen is
     glViewport(0, 0, size().width() * m_devicePixelRatio, size().height() * m_devicePixelRatio);
 
-    glClearColor(0.0f, 0.0f, 0.0f, 1.0f); // set the clear color
+    glClearColor(0.73f, 0.9f, 0.95f, 1.0f); // set the clear color
 
     // set up shaders
     m_shader = ShaderLoader::createShaderProgram(":/resources/shaders/default.vert", ":/resources/shaders/default.frag");
