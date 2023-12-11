@@ -41,6 +41,13 @@ add_executable(${PROJECT_NAME}
     src/utils/sceneparser.h
     src/utils/shaderloader.h
     src/utils/aspectratiowidget/aspectratiowidget.hpp
+    src/fbo.h src/fbo.cpp
+    src/vbo_vao.h src/vbo_vao.cpp
+    src/camera/camera.h src/camera/camera.cpp
+    src/shapes/cone.h src/shapes/cone.cpp
+    src/shapes/cube.h src/shapes/cube.cpp
+    src/shapes/cylinder.h src/shapes/cylinder.cpp
+    src/shapes/sphere.h src/shapes/sphere.cpp
 )
 
 # GLM: this creates its library and allows you to `#include "glm/..."`
@@ -74,8 +81,8 @@ qt6_add_resources(${PROJECT_NAME} "Resources"
 
 target_sources(textiles_final_other_files
   PRIVATE
-  resources/shaders/texture.frag
-  resources/shaders/texture.vert
+#  resources/shaders/texture.frag
+#  resources/shaders/texture.vert
 
 )
 

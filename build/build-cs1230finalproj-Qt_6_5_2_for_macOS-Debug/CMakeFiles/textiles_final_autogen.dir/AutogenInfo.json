@@ -397,6 +397,12 @@
 	"HEADERS" : 
 	[
 		[
+			"/Users/afiaakosah-bempah/cs1230/cs1230finalproj/src/fbo.h",
+			"MU",
+			"UVLADIE3JM/moc_fbo.cpp",
+			null
+		],
+		[
 			"/Users/afiaakosah-bempah/cs1230/cs1230finalproj/src/mainwindow.h",
 			"MU",
 			"UVLADIE3JM/moc_mainwindow.cpp",
@@ -442,6 +448,12 @@
 			"/Users/afiaakosah-bempah/cs1230/cs1230finalproj/src/utils/shaderloader.h",
 			"MU",
 			"VSCBVMNR7M/moc_shaderloader.cpp",
+			null
+		],
+		[
+			"/Users/afiaakosah-bempah/cs1230/cs1230finalproj/src/vbo_vao.h",
+			"MU",
+			"UVLADIE3JM/moc_vbo_vao.cpp",
 			null
 		]
 	],
@@ -526,6 +538,11 @@
 	"SOURCES" : 
 	[
 		[
+			"/Users/afiaakosah-bempah/cs1230/cs1230finalproj/src/fbo.cpp",
+			"MU",
+			null
+		],
+		[
 			"/Users/afiaakosah-bempah/cs1230/cs1230finalproj/src/main.cpp",
 			"MU",
 			null
@@ -552,6 +569,11 @@
 		],
 		[
 			"/Users/afiaakosah-bempah/cs1230/cs1230finalproj/src/utils/sceneparser.cpp",
+			"MU",
+			null
+		],
+		[
+			"/Users/afiaakosah-bempah/cs1230/cs1230finalproj/src/vbo_vao.cpp",
 			"MU",
 			null
 		]

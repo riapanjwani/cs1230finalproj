@@ -169,8 +169,6 @@ void Camera::rotateAround(float angleDeg, glm::vec3 rotationAxis, bool isYRotati
         x3, y3, z3
         );
 
-//    rotationMatrix = glm::transpose(rotationMatrix);
-
     // Apply the rotation matrix to the camera's look-at point and up vector
     m_look = glm::vec4((rotationMatrix * glm::vec3(m_look)), 0.f);
     m_up = glm::vec4((rotationMatrix * glm::vec3(m_up)), 0.f);

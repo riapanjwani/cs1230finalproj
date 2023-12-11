@@ -29,9 +29,9 @@ void Cone::makeSideTriangle(glm::vec3 top,
 }
 
 void Cone::makeTileBase(glm::vec3 topLeft,
-                            glm::vec3 topRight,
-                            glm::vec3 bottomLeft,
-                            glm::vec3 bottomRight) {
+                        glm::vec3 topRight,
+                        glm::vec3 bottomLeft,
+                        glm::vec3 bottomRight) {
 
     glm::vec3 normalBottom = {0.0f, -1.0f, 0.0f};
     insertVec3(m_vertexData, topLeft);
@@ -54,8 +54,8 @@ void Cone::makeTileBase(glm::vec3 topLeft,
 }
 
 void Cone::makeTileSide(glm::vec3 topLeft,
-                            glm::vec3 topRight,
-                            glm::vec3 bottomLeft,
+                        glm::vec3 topRight,
+                        glm::vec3 bottomLeft,
                         glm::vec3 bottomRight) {
 
     glm::vec3 normalTopLeft = {2.0f * topLeft[0], 0.5f * (0.5f - topLeft[1]), 2.0f* topLeft[2]};

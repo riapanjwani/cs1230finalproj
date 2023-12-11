@@ -1,0 +1,130 @@
+{
+	"configurations" : 
+	[
+		{
+			"directories" : 
+			[
+				{
+					"build" : ".",
+					"childIndexes" : 
+					[
+						1
+					],
+					"jsonFile" : "directory-.-Release-f5ebdc15457944623624.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.16"
+					},
+					"projectIndex" : 0,
+					"source" : ".",
+					"targetIndexes" : 
+					[
+						0,
+						1,
+						2,
+						3,
+						4,
+						5,
+						6
+					]
+				},
+				{
+					"build" : "glm",
+					"jsonFile" : "directory-glm-Release-2bef2a2728e6bac3f360.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.16"
+					},
+					"parentIndex" : 0,
+					"projectIndex" : 0,
+					"source" : "glm"
+				}
+			],
+			"name" : "Release",
+			"projects" : 
+			[
+				{
+					"directoryIndexes" : 
+					[
+						0,
+						1
+					],
+					"name" : "textiles_final",
+					"targetIndexes" : 
+					[
+						0,
+						1,
+						2,
+						3,
+						4,
+						5,
+						6
+					]
+				}
+			],
+			"targets" : 
+			[
+				{
+					"directoryIndex" : 0,
+					"id" : "StaticGLEW::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-StaticGLEW-Release-118d431c86a6bca83214.json",
+					"name" : "StaticGLEW",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "StaticGLEW_autogen::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-StaticGLEW_autogen-Release-96d61d5399c9a8e68201.json",
+					"name" : "StaticGLEW_autogen",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "StaticGLEW_autogen_timestamp_deps::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-StaticGLEW_autogen_timestamp_deps-Release-fe191efb729effb76bb5.json",
+					"name" : "StaticGLEW_autogen_timestamp_deps",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "textiles_final::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-textiles_final-Release-ca3aaedff0026a71e8b7.json",
+					"name" : "textiles_final",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "textiles_final_autogen::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-textiles_final_autogen-Release-78340cd9e3fd4faed811.json",
+					"name" : "textiles_final_autogen",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "textiles_final_autogen_timestamp_deps::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-textiles_final_autogen_timestamp_deps-Release-5e4b915f2e2f232d6583.json",
+					"name" : "textiles_final_autogen_timestamp_deps",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "textiles_final_other_files::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-textiles_final_other_files-Release-410c4fc8582d9f6c0704.json",
+					"name" : "textiles_final_other_files",
+					"projectIndex" : 0
+				}
+			]
+		}
+	],
+	"kind" : "codemodel",
+	"paths" : 
+	{
+		"build" : "/Users/afiaakosah-bempah/cs1230/cs1230finalproj/build/build-cs1230finalproj-Qt_6_5_2_for_macOS-Release",
+		"source" : "/Users/afiaakosah-bempah/cs1230/cs1230finalproj"
+	},
+	"version" : 
+	{
+		"major" : 2,
+		"minor" : 4
+	}
+}

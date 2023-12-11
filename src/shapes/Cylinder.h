@@ -14,16 +14,16 @@ private:
     void setVertexData();
     void makeBase(float currTheta, float nextTheta);
     void makeTileSide(glm::vec3 topLeft,
-                                glm::vec3 topRight,
-                                glm::vec3 bottomLeft,
+                      glm::vec3 topRight,
+                      glm::vec3 bottomLeft,
                       glm::vec3 bottomRight);
     void makeBaseTriangle(glm::vec3 top,
-                                    glm::vec3 left,
-                                    glm::vec3 right);
+                          glm::vec3 left,
+                          glm::vec3 right);
     void makeTileBase(glm::vec3 topLeft,
-                                glm::vec3 topRight,
-                                glm::vec3 bottomLeft,
-                                glm::vec3 bottomRight);
+                      glm::vec3 topRight,
+                      glm::vec3 bottomLeft,
+                      glm::vec3 bottomRight);
     void makeSide(float currTheta, float nextTheta);
     glm::vec3 calculateVertex(float currTheta, float height);
     glm::vec3 calculateBaseVertex(float currTheta, float tileDelta, float z);

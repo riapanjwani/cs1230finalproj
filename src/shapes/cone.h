@@ -13,15 +13,15 @@ private:
     void insertVec3(std::vector<float> &data, glm::vec3 v);
     void setVertexData();
     void makeSideTriangle(glm::vec3 top,
-                                glm::vec3 left,
-                                glm::vec3 right);
+                          glm::vec3 left,
+                          glm::vec3 right);
     void makeTileBase(glm::vec3 topLeft,
-                            glm::vec3 topRight,
-                            glm::vec3 bottomLeft,
-                            glm::vec3 bottomRight);
+                      glm::vec3 topRight,
+                      glm::vec3 bottomLeft,
+                      glm::vec3 bottomRight);
     void makeTileSide(glm::vec3 topLeft,
-                            glm::vec3 topRight,
-                            glm::vec3 bottomLeft,
+                      glm::vec3 topRight,
+                      glm::vec3 bottomLeft,
                       glm::vec3 bottomRight);
     void makeBase(float currTheta, float nextTheta);
     void makeSide(float currTheta, float nextTheta);

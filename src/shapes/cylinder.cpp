@@ -8,9 +8,9 @@ void Cylinder::updateParams(int param1, int param2) {
 }
 
 void Cylinder::makeTileSide(glm::vec3 topLeft,
-                                glm::vec3 topRight,
-                      glm::vec3 bottomLeft,
-                      glm::vec3 bottomRight) {
+                            glm::vec3 topRight,
+                            glm::vec3 bottomLeft,
+                            glm::vec3 bottomRight) {
 
     glm::vec3 normalTopLeft = glm::normalize(glm::vec3(topLeft[0], 0.0f, topLeft[2]));
     glm::vec3 normalTopRight = glm::normalize(glm::vec3(topRight[0], 0.0f,topRight[2]));
