@@ -364,6 +364,7 @@ void Realtime::updateClothWithForce(){
 }
 
 
+//makes sense that this is identical because applied universally to each particle
 //this is assuming that y is up!!! which i believe is true here
 glm::vec3 Realtime::calculateGravity(){
     m_mass = 1.0f;
