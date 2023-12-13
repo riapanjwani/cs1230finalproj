@@ -57,14 +57,11 @@ void Cloth::makeTile(glm::vec3 topLeft,
                     glm::vec3 topRight,
                     glm::vec3 bottomLeft,
                     glm::vec3 bottomRight, int counter) {
-    // Task 2: create a tile (i.e. 2 triangles) based on 4 given points.
-    //should be 4 normals bc 4 given vertices
+
     glm::vec3 normalTopLeft = glm::normalize(glm::cross(bottomLeft - topLeft, bottomRight - topLeft));
     glm::vec3 normalTopLeft2 = glm::normalize(glm::cross(bottomRight - topLeft, topRight - topLeft));
     glm::vec3 normalBottomRight = glm::normalize(glm::cross(topLeft - bottomRight, bottomLeft - bottomRight));
     glm::vec3 normalBottomRight2 = glm::normalize(glm::cross(topRight - bottomRight, topLeft - bottomRight));
-    //testing to see if above are the same, but never prints
-
     glm::vec3 normalBottomLeft = glm::normalize(glm::cross(bottomRight - bottomLeft, topLeft-bottomLeft));
     glm::vec3 normalTopRight = glm::normalize(glm::cross(topLeft- topRight, bottomRight - topRight));
 
@@ -116,6 +113,7 @@ void Cloth::makeTile(glm::vec3 topLeft,
         insertVec3(m_vertexData, p3.position);
         insertVec3(m_vertexData, normalTopRight);
     }
+
     if(counter ==3){
         insertVec3(m_vertexData, p5.position);
         insertVec3(m_vertexData, normalTopLeft);
@@ -139,7 +137,7 @@ void Cloth::makeFace(glm::vec3 topLeft,
                     glm::vec3 bottomLeft,
                     glm::vec3 bottomRight) {
     int numTiles = 2;
-
+    int counter = 0;
     //for the z values all the same, meaning it is the top and bottom face
     if ((topLeft[2] == 0.5 || topLeft[2] == -0.5)
         && (topRight[2] == 0.5 || topRight[2] == -0.5)
@@ -149,7 +147,8 @@ void Cloth::makeFace(glm::vec3 topLeft,
         float stepX = (topRight[0] - topLeft[0])/numTiles;
         float stepY = (bottomLeft[1] - topLeft[1])/numTiles;
 
-        int counter = 0;
+
+
         for(int i = 0; i< numTiles; i++){
             for (int j = 0; j<numTiles; j++){
                 glm::vec3 tileTopLeft = topLeft + glm::vec3(stepX * i, stepY * j, 0.0f);
@@ -157,7 +156,7 @@ void Cloth::makeFace(glm::vec3 topLeft,
                 glm::vec3 tileBottomLeft = tileTopLeft + glm::vec3(0.0f, stepY, 0.0f);
                 glm::vec3 tileBottomRight = tileTopRight + glm::vec3(0.0f, stepY, 0.0f);
                 makeTile(tileTopLeft, tileTopRight, tileBottomLeft, tileBottomRight, counter);
-                counter += 1;
+                counter++;
             }
         }
     }

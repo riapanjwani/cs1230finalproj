@@ -112,11 +112,13 @@ void Realtime::initializeGL() {
     // Tells OpenGL how big the screen is
     glViewport(0, 0, size().width() * m_devicePixelRatio, size().height() * m_devicePixelRatio);
 
-    glClearColor(0.73f, 0.9f, 0.95f, 1.0f); // set the clear color
+    glClearColor(0.73f, 0.9f, 0.95f, 1.0f); // set the clear color (sky blue)
 
     // set up shaders
     m_shader = ShaderLoader::createShaderProgram(":/resources/shaders/default.vert", ":/resources/shaders/default.frag");
     m_texture_shader = ShaderLoader::createShaderProgram(":/resources/shaders/texture.vert", ":/resources/shaders/texture.frag");
+
+    m_newPositions = {0.0f};
 
     // generate VAOs for each type of shape
     genVBOsVAOs();
@@ -127,7 +129,6 @@ void Realtime::initializeGL() {
 
     m_fboObject->makeFBO();
 
-    m_newPositions = {0.0f};
 }
 
 void Realtime::paintTexture(bool togglePerPixel, bool toggleKernelFilter, bool toggleExtraCredit1, bool toggleExtraCredit2){
@@ -576,6 +577,12 @@ void Realtime::timerEvent(QTimerEvent *event) {
     }
 
     update(); // asks for a PaintGL() call to occur
+}
+
+void Realtime::insertVec3(std::vector<float> &data, glm::vec3 v) {
+    data.push_back(v.x);
+    data.push_back(v.y);
+    data.push_back(v.z);
 }
 
 // DO NOT EDIT

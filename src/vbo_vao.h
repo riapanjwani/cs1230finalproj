@@ -3,7 +3,7 @@
 #include <shapes/cube.h>
 #include <shapes/sphere.h>
 #include <shapes/cloth.h>
-#include <shapes/cylinder.h>
+#include <shapes/Cylinder.h>
 #include <shapes/cone.h>
 #include <utils/scenedata.h>
 
