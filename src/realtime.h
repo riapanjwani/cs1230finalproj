@@ -16,6 +16,7 @@
 
 #include <utils/sceneparser.h>
 #include <vbo_vao.h>
+#include <shapes/cloth.h>
 #include <camera/camera.h>
 
 #include "settings.h"
@@ -65,6 +66,7 @@ private:
     std::vector<PrimitiveType> allShapeTypes = {PrimitiveType::PRIMITIVE_CONE,
                                                 PrimitiveType::PRIMITIVE_CUBE,
                                                 PrimitiveType::PRIMITIVE_CYLINDER,
+                                                PrimitiveType::PRIMITIVE_CLOTH,
                                                 PrimitiveType::PRIMITIVE_SPHERE};
 
     RenderData m_metaData; // scene data
@@ -102,5 +104,40 @@ private:
     int m_devicePixelRatio;
     int m_screen_width;
     int m_screen_height;
+
+    // Mass spring info
+    std::vector<float> m_newPositions;
+    void updateClothWithForce();
+
+    std::vector<Cloth::Particle> m_particles;
+    std::vector<Cloth::Particle> m_fixedParticles;
+    int m_numParticles = 9;
+    float m_mass;
+
+    enum class SpringType{
+        STRUCTURAL,
+        SHEAR,
+        FLEXION
+    };
+
+    struct Spring {
+        SpringType type;
+        Cloth::Particle *particle1;
+        Cloth::Particle *particle2;
+        float stiffness;  //KO - structural, k1 - shear, k2 - flexion
+        float restLength; //when there is no deformation, the distance in world space between them
+    };
+
+    std::vector<Spring> m_structuralSprings;
+    std::vector<Spring> m_shearSprings;
+    std::vector<Spring> m_flexionSprings;
+
+    float m_gravity = 9.8f;
+
+    glm::vec3 calculateGravity();
+    glm::vec3 calculateSpringForce();
+    glm::vec3 calculateDampingForce();
+
+    void insertVec3(std::vector<float> &data, glm::vec3 v);
 
 };

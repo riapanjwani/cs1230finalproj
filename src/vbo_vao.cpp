@@ -8,7 +8,7 @@ vbo_vao::vbo_vao(GLuint &vao) {
     glGenVertexArrays(1, m_vao);
 }
 
-int vbo_vao::fillArray(PrimitiveType currShape, int param1, int param2){
+int vbo_vao::fillArray(PrimitiveType currShape, int param1, int param2, std::vector<float> newPositions, bool withForce){
     std::vector<GLfloat> vertices;
 
     // Generate vertex data based on current shape
@@ -32,6 +32,13 @@ int vbo_vao::fillArray(PrimitiveType currShape, int param1, int param2){
         m_cylinder->updateParams(param1, param2);
         vertices = m_cylinder->generateShape();
         delete(m_cylinder);
+    } else if (currShape == PrimitiveType::PRIMITIVE_CLOTH){
+        m_cloth = new Cloth();
+        if(newPositions[0] != 0){
+            m_cloth->updateParams(newPositions);
+        }
+        vertices = m_cloth->generateShape();
+//        delete(m_cloth);
     }
 
     int numTriangles = int(vertices.size()) / 6;

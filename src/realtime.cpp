@@ -68,11 +68,11 @@ void Realtime::fillVAOs(){
     for(glShapeInfo &shapeInfoObj : m_shapesRenderInfo) {
 
         for(RenderShapeData &shape : m_metaData.shapes) {
-            //glShapeInfo &shapeInfoObj : m_shapesRenderInfo
 
             if(shape.primitive.type == shapeInfoObj.shape){
                 shapeInfoObj.numTriangles = shapeInfoObj.vaoObject->fillArray(shapeInfoObj.shape,
-                                                                              settings.shapeParameter1, settings.shapeParameter2);
+                                                                              settings.shapeParameter1, settings.shapeParameter2,
+                                                                              m_newPositions, false);
                 break;
             }
 
@@ -126,6 +126,8 @@ void Realtime::initializeGL() {
     m_fboObject->generateScreenQuadData(m_fullscreen_vao, m_fullscreen_vbo);
 
     m_fboObject->makeFBO();
+
+    m_newPositions = {0.0f};
 }
 
 void Realtime::paintTexture(bool togglePerPixel, bool toggleKernelFilter, bool toggleExtraCredit1, bool toggleExtraCredit2){
@@ -345,7 +347,46 @@ void Realtime::settingsChanged() {
     update(); // asks for a PaintGL() call to occur
 }
 
-// ================== Project 6: Action!
+// ================== Mesh Cloth Functions
+
+
+void Realtime::updateClothWithForce(){
+    for(glShapeInfo &shapeInfoObj : m_shapesRenderInfo) {
+
+        if(shapeInfoObj.shape == PrimitiveType::PRIMITIVE_CLOTH){
+            shapeInfoObj.numTriangles = shapeInfoObj.vaoObject->fillArray(shapeInfoObj.shape,
+                                                                          settings.shapeParameter1, settings.shapeParameter2, m_newPositions, true);
+            break;
+        }
+
+    }
+}
+
+
+//makes sense that this is identical because applied universally to each particle
+//this is assuming that y is up!!! which i believe is true here
+glm::vec3 Realtime::calculateGravity(){
+    m_mass = 1.0f;
+    glm::vec3 gravityForce = {0.0f, -m_gravity* m_mass, 0.0f};
+    return gravityForce;
+}
+
+/**
+ * @brief This is the force acting on a particle with a given spring at p&q with stiffness K, and rest length
+ * //is there an appropriate stiffness, rest length etc, to use?
+ * @return
+ */
+glm::vec3 Realtime::calculateSpringForce(){
+    glm::vec3 springForce;
+    return springForce;
+}
+
+glm::vec3 Realtime::calculateDampingForce(){
+    glm::vec3 dampingForce;
+    return dampingForce;
+}
+
+// ================== Action!
 
 void Realtime::keyPressEvent(QKeyEvent *event) {
     m_keyMap[Qt::Key(event->key())] = true;
@@ -390,6 +431,134 @@ void Realtime::timerEvent(QTimerEvent *event) {
     int elapsedms   = m_elapsedTimer.elapsed();
     float deltaTime = elapsedms * 0.001f;
     m_elapsedTimer.restart();
+
+    if(m_keyMap[Qt::Key_G] == true){
+
+        Cloth::Particle p1;
+        Cloth::Particle p2;
+        Cloth::Particle p3;
+        Cloth::Particle p4;
+        Cloth::Particle p5;
+        Cloth::Particle p6;
+        Cloth::Particle p7;
+        Cloth::Particle p8;
+        Cloth::Particle p9;
+
+        for(glShapeInfo &shapeInfoObj : m_shapesRenderInfo) {
+
+            if(shapeInfoObj.shape == PrimitiveType::PRIMITIVE_CLOTH){ // kind confused by this bc I thought we deleted each object after filling the arrays?
+                // commented out the delete call in va0_vbo for the cloth for now, see line 41 there
+                p1 = shapeInfoObj.vaoObject->m_cloth->getParticle1();
+                p2 = shapeInfoObj.vaoObject->m_cloth->getParticle2();
+                p3 = shapeInfoObj.vaoObject->m_cloth->getParticle3();
+                p4 = shapeInfoObj.vaoObject->m_cloth->getParticle4();
+                p5 = shapeInfoObj.vaoObject->m_cloth->getParticle5();
+                p6 = shapeInfoObj.vaoObject->m_cloth->getParticle6();
+                p7 = shapeInfoObj.vaoObject->m_cloth->getParticle7();
+                p8 = shapeInfoObj.vaoObject->m_cloth->getParticle8();
+                p9 = shapeInfoObj.vaoObject->m_cloth->getParticle9();
+
+                break;
+            }
+
+        }
+
+        glm::vec3 acceleration = calculateGravity();
+
+        float springHoriz = 0.325f;
+        float springVert = 0.45f;
+
+        Spring spring14;
+        spring14.particle1 = &p1;
+        spring14.particle2 = &p4;
+        spring14.restLength = springVert;
+        Spring spring45;
+        spring45.particle1 = &p4;
+        spring45.particle2 = &p5;
+        spring45.restLength = springHoriz;
+        Spring spring25;
+        spring25.particle1 = &p2;
+        spring25.particle2 = &p5;
+        spring25.restLength = springVert;
+        Spring spring12;
+        spring12.particle1 = &p1;
+        spring12.particle2 = &p2;
+        spring12.restLength = springHoriz;
+        Spring spring47;
+        spring47.particle1 = &p4;
+        spring47.particle2 = &p7;
+        spring47.restLength = springVert;
+        Spring spring78;
+        spring78.particle1 = &p7;
+        spring78.particle1 = &p8;
+        spring78.restLength = springHoriz;
+        Spring spring58;
+        spring58.particle1 = &p5;
+        spring58.particle2 = &p8;
+        spring58.restLength = springVert;
+        Spring spring56;
+        spring56.particle1 = &p5;
+        spring56.particle2 = &p6;
+        spring56.restLength =springHoriz;
+        Spring spring36;
+        spring36.particle1 = &p3;
+        spring36.particle2 = &p6;
+        spring36.restLength = springVert;
+        Spring spring23;
+        spring23.particle1 = &p2;
+        spring23.particle2 = &p3;
+        spring23.restLength = springHoriz;
+        Spring spring89;
+        spring89.particle1 = &p8;
+        spring89.particle2 = &p9;
+        spring89.restLength = springHoriz;
+        Spring spring69;
+        spring69.particle1 = &p6;
+        spring69.particle2 = &p9;
+        spring69.restLength = springVert;
+
+        //verlet integration equation here!!!
+        glm::vec3 p2newPos = {2.0f * p2.position[0] - p2.position[0] + acceleration[0] * (deltaTime * deltaTime),
+                              2.0f * p2.position[1] - p2.oldPosition[1] + acceleration[1] * (deltaTime * deltaTime),
+                              p2.position[2]};
+
+        glm::vec3 p4newPos = {2.0f * p4.position[0] - p4.position[0] + acceleration[0] * (deltaTime * deltaTime),
+                              2.0f * p4.position[1] - p4.oldPosition[1] + acceleration[1] * (deltaTime * deltaTime),
+                              p4.position[2]};
+
+        glm::vec3 p5newPos = {2.0f * p5.position[0] - p5.position[0] + acceleration[0] * (deltaTime * deltaTime),
+                              2.0f * p5.position[1] - p5.oldPosition[1] + acceleration[1] * (deltaTime * deltaTime),
+                              p5.position[2]};
+
+        glm::vec3 p6newPos = {2.0f * p6.position[0] - p6.position[0] + acceleration[0] * (deltaTime * deltaTime),
+                              2.0f * p6.position[1] - p6.oldPosition[1] + acceleration[1] * (deltaTime * deltaTime),
+                              p6.position[2]};
+
+        glm::vec3 p7newPos = {2.0f * p7.position[0] - p7.position[0] + acceleration[0] * (deltaTime * deltaTime),
+                              2.0f * p7.position[1] - p7.oldPosition[1] + acceleration[1] * (deltaTime * deltaTime),
+                              p7.position[2]};
+
+        glm::vec3 p8newPos = {2.0f * p8.position[0] - p8.position[0] + acceleration[0] * (deltaTime * deltaTime),
+                              2.0f * p8.position[1] - p8.oldPosition[1] + acceleration[1] * (deltaTime * deltaTime),
+                              p8.position[2]};
+
+        glm::vec3 p9newPos = {2.0f * p9.position[0] - p9.position[0] + acceleration[0] * (deltaTime * deltaTime),
+                              2.0f * p9.position[1] - p9.oldPosition[1] + acceleration[1] * (deltaTime * deltaTime),
+                              p9.position[2]};
+
+        m_newPositions.clear();
+        insertVec3(m_newPositions, p2newPos);
+        insertVec3(m_newPositions, p4newPos);
+        insertVec3(m_newPositions, p5newPos);
+        insertVec3(m_newPositions, p6newPos);
+        insertVec3(m_newPositions, p7newPos);
+        insertVec3(m_newPositions, p8newPos);
+        insertVec3(m_newPositions, p9newPos);
+
+        fillVAOs();
+        updateClothWithForce();
+        update();
+    }
 
     // Use deltaTime and m_keyMap to move around
     if(m_keyMap[Qt::Key_W]){

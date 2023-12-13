@@ -63,7 +63,7 @@ void fbo::generateScreenQuadData(GLuint &vao, GLuint &vbo) {
     glGenVertexArrays(1, m_fullscreenVAO);
     glBindVertexArray(*m_fullscreenVAO);
 
-    // enable attributes
+    // enable attributes positions & uvCoords
     glEnableVertexAttribArray(0);
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(GLfloat), nullptr);
     glEnableVertexAttribArray(1);

@@ -48,6 +48,7 @@ add_executable(${PROJECT_NAME}
     src/shapes/cube.h src/shapes/cube.cpp
     src/shapes/cylinder.h src/shapes/cylinder.cpp
     src/shapes/sphere.h src/shapes/sphere.cpp
+    src/shapes/cloth.h src/shapes/cloth.cpp
 )
 
 # GLM: this creates its library and allows you to `#include "glm/..."`
