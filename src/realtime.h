@@ -100,12 +100,12 @@ private:
     void paintCubemap(int numTriangles, GLuint &vao);
 
     std::vector<std::string> m_cubeMapImages = {
-        ":/resources/images/right.png",
-        ":/resources/images/left.png",
-        ":/resources/images/top.png",
-        ":/resources/images/bottom.png",
-        ":/resources/images/front.png",
-        ":/resources/images/back.png"
+        ":/resources/images/nz.jpg",
+        ":/resources/images/nx.jpg",
+        ":/resources/images/ny.jpg",
+        ":/resources/images/pz.jpg",
+        ":/resources/images/py.jpg",
+        ":/resources/images/px.jpg"
     };
 
     int m_width, m_height;
