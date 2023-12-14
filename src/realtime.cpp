@@ -34,12 +34,12 @@ void Realtime::finish() {
         m_shapesRenderInfo[i].vaoObject->deleteData();
     }
 
-    m_fboObject->deleteData();
+//    m_fboObject->deleteData();
 
     glDeleteProgram(m_shader);
-    glDeleteProgram(m_texture_shader);
+//    glDeleteProgram(m_texture_shader);
 
-    delete(m_fboObject);
+//    delete(m_fboObject);
 
     this->doneCurrent();
 }
@@ -107,6 +107,7 @@ void Realtime::initializeGL() {
 
     // Allows OpenGL to draw objects appropriately on top of one another
     glEnable(GL_DEPTH_TEST);
+    glDepthMask(GL_FALSE);
     // Tells OpenGL to only draw the front face
     glEnable(GL_CULL_FACE);
     // Tells OpenGL how big the screen is
@@ -117,6 +118,7 @@ void Realtime::initializeGL() {
     // set up shaders
     m_shader = ShaderLoader::createShaderProgram(":/resources/shaders/default.vert", ":/resources/shaders/default.frag");
     m_texture_shader = ShaderLoader::createShaderProgram(":/resources/shaders/texture.vert", ":/resources/shaders/texture.frag");
+    m_skyboxShader = ShaderLoader::createShaderProgram(":/resources/shaders/skybox.vert", ":/resources/shaders/skybox.frag");
 
     m_newPositions = {0.0f};
 
@@ -129,6 +131,7 @@ void Realtime::initializeGL() {
 
     m_fboObject->makeFBO();
 
+    loadCubemap();
 }
 
 void Realtime::paintTexture(bool togglePerPixel, bool toggleKernelFilter, bool toggleExtraCredit1, bool toggleExtraCredit2){
@@ -162,6 +165,65 @@ void Realtime::paintTexture(bool togglePerPixel, bool toggleKernelFilter, bool t
     glUseProgram(0);
 }
 
+
+void Realtime::paintCubemap(int numTriangles, GLuint &vao){
+    glUseProgram(m_skyboxShader);
+    GLuint* intermediateVAO = &vao;
+    glBindVertexArray(*intermediateVAO);
+
+    // pass in view and projection matrices as uniforms
+    GLint viewLocation = glGetUniformLocation(m_skyboxShader, "m_view");
+    // don't want the translation portion of the view matrix
+    glm::mat4 view = glm::mat4(glm::mat3(m_camera.getViewMatrix()));
+    glUniformMatrix4fv(viewLocation, 1, GL_FALSE, &view[0][0]);
+    glm::mat4 projection = m_camera.getProjectionMatrix();
+    GLint projLocation = glGetUniformLocation(m_skyboxShader, "m_proj");
+    glUniformMatrix4fv(projLocation, 1, GL_FALSE, &projection[0][0]);
+
+    glActiveTexture(GL_TEXTURE1);
+    glBindTexture(GL_TEXTURE_CUBE_MAP, m_skyboxTextureID);
+    auto textureLoc = glGetUniformLocation(m_skyboxShader, "m_skybox");
+    glUniform1i(textureLoc, 1);
+
+    glDrawArrays(GL_TRIANGLES, 0, numTriangles);
+    glDepthMask(GL_TRUE);
+
+//    glBindTexture(GL_TEXTURE_CUBE_MAP, 0);
+    glBindVertexArray(0);
+    glUseProgram(0);
+}
+
+GLuint Realtime::loadCubemap() {
+    glGenTextures(1, &m_skyboxTextureID);
+    glActiveTexture(GL_TEXTURE1);
+    glBindTexture(GL_TEXTURE_CUBE_MAP, m_skyboxTextureID);
+
+    for (int i = 0; i < m_cubeMapImages.size(); i++) {
+        // Prepare filepath
+        QString curr_filepath = QString::fromStdString(m_cubeMapImages[i]);
+
+        // Obtain image from filepath
+        QImage image = QImage(curr_filepath);
+
+        // Format image to fit OpenGL
+        image = image.convertToFormat(QImage::Format_RGBA8888).mirrored();
+
+        // Load images into skybox/cubemap texture
+        glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X + i,
+                     0, GL_RGBA, image.width(), image.height(), 0, GL_RGBA, GL_UNSIGNED_BYTE, image.bits());
+    }
+
+    glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+    glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+    glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE);
+
+    // Unbind the cube map
+    glBindTexture(GL_TEXTURE_CUBE_MAP, 0);
+
+    return m_skyboxTextureID;
+}
 
 void Realtime::drawShape(PrimitiveType shapeType){
 
@@ -253,34 +315,43 @@ void Realtime::paintGL() {
     // Clear the screen
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
+    // render cube first
+    for(glShapeInfo &shapeInfoObj : m_shapesRenderInfo) {
+        if (shapeInfoObj.shape == PrimitiveType::PRIMITIVE_CUBE){
+            paintCubemap(shapeInfoObj.numTriangles, shapeInfoObj.vao);
+            break;
+        }
+    }
+
     // Bind the shader
     glUseProgram(m_shader);
 
     setUpGlobalUniforms();
 
-    // for each shape, bind VAO, pass in shape-specific uniforms,s
+    // for each shape, bind VAO, pass in shape-specific uniforms,
     // and then draw with shaders, unbind VAO
     for(RenderShapeData &shape : m_metaData.shapes){
+        if(shape.primitive.type != PrimitiveType::PRIMITIVE_CUBE){
+            glm::mat4 model = shape.ctm;
+            // pass in the model (ctm) of this shape as a uniform into the shader program
+            GLint modelLocation = glGetUniformLocation(m_shader, "m_model");
+            glUniformMatrix4fv(modelLocation, 1, GL_FALSE, &model[0][0]);
 
-        glm::mat4 model = shape.ctm;
-        // pass in the model (ctm) of this shape as a uniform into the shader program
-        GLint modelLocation = glGetUniformLocation(m_shader, "m_model");
-        glUniformMatrix4fv(modelLocation, 1, GL_FALSE, &model[0][0]);
+            // pass in Shape material attributes as uniforms
+            glm::vec4 ambientColor = shape.primitive.material.cAmbient;
+            glUniform4fv(glGetUniformLocation(m_shader, "material_cAmbient"), 1, &ambientColor[0]);
+            glm::vec4 diffuseColor = shape.primitive.material.cDiffuse;
+            glUniform4fv(glGetUniformLocation(m_shader, "material_cDiffuse"), 1, &diffuseColor[0]);
+            glm::vec4 specularColor = shape.primitive.material.cSpecular;
+            glUniform4fv(glGetUniformLocation(m_shader, "material_cSpecular"), 1, &specularColor[0]);
+            float shininess = shape.primitive.material.shininess;
+            glUniform1f(glGetUniformLocation(m_shader, "material_shininess"), shininess);
+            glm::vec4 reflectiveColor = shape.primitive.material.cReflective;
+            glUniform4fv(glGetUniformLocation(m_shader, "material_cReflective"), 1, &reflectiveColor[0]);
 
-        // pass in Shape material attributes as uniforms
-        glm::vec4 ambientColor = shape.primitive.material.cAmbient;
-        glUniform4fv(glGetUniformLocation(m_shader, "material_cAmbient"), 1, &ambientColor[0]);
-        glm::vec4 diffuseColor = shape.primitive.material.cDiffuse;
-        glUniform4fv(glGetUniformLocation(m_shader, "material_cDiffuse"), 1, &diffuseColor[0]);
-        glm::vec4 specularColor = shape.primitive.material.cSpecular;
-        glUniform4fv(glGetUniformLocation(m_shader, "material_cSpecular"), 1, &specularColor[0]);
-        float shininess = shape.primitive.material.shininess;
-        glUniform1f(glGetUniformLocation(m_shader, "material_shininess"), shininess);
-        glm::vec4 reflectiveColor = shape.primitive.material.cReflective;
-        glUniform4fv(glGetUniformLocation(m_shader, "material_cReflective"), 1, &reflectiveColor[0]);
-
-        // Bind VAO & Draw Command
-        drawShape(shape.primitive.type);
+            // Bind VAO & Draw Command
+            drawShape(shape.primitive.type);
+        }
     }
 
     // Unbind the shader

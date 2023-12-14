@@ -91,39 +91,8 @@
                 1,
                 1
               ],
-              "shininess": 0,
-              "type": "cube"}
-          ],
-          "translate": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "scale": [
-            4,
-            4,
-            4
-          ]},
-        {
-          "primitives": [
-            {
-              "ambient": [
-                0.5,
-                0,
-                0.5
-              ],
-              "diffuse": [
-                1,
-                0,
-                1
-              ],
-              "specular": [
-                1,
-                1,
-                1
-              ],
               "shininess": 30,
-              "type": "cloth"}
+              "type": "cube"}
           ],
           "translate": [
             -0.05,
@@ -135,6 +104,37 @@
             0.9,
             0.001
           ]},
+          {
+            "primitives": [
+              {
+                "ambient": [
+                  0.5,
+                  0,
+                  0.5
+                ],
+                "diffuse": [
+                  1,
+                  0,
+                  1
+                ],
+                "specular": [
+                  1,
+                  1,
+                  1
+                ],
+                "shininess": 0,
+                "type": "cube"}
+            ],
+            "translate": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "scale": [
+              8,
+              8,
+              8
+            ]},
         {
           "primitives": [
             {

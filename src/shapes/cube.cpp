@@ -3,6 +3,7 @@
 void Cube::updateParams(int param1) {
     m_vertexData = std::vector<float>();
     m_param1 = param1;
+//    m_param1 = 6;
     setVertexData();
 }
 

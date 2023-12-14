@@ -49,6 +49,9 @@ add_executable(${PROJECT_NAME}
     src/shapes/cylinder.h src/shapes/cylinder.cpp
     src/shapes/sphere.h src/shapes/sphere.cpp
     src/shapes/cloth.h src/shapes/cloth.cpp
+    resources/shaders/normalMapping.frag
+    resources/shaders/normalMapping.vert
+
 )
 
 # GLM: this creates its library and allows you to `#include "glm/..."`
@@ -78,13 +81,14 @@ qt6_add_resources(${PROJECT_NAME} "Resources"
         resources/shaders/default.vert
         resources/shaders/texture.frag
         resources/shaders/texture.vert
+        resources/shaders/normalMapping.frag
+        resources/shaders/normalMapping.vert
+        resources/shaders/skybox.vert
+        resources/shaders/skybox.frag
 )
 
 target_sources(textiles_final_other_files
   PRIVATE
-#  resources/shaders/texture.frag
-#  resources/shaders/texture.vert
-
 )
 
 # GLEW: this provides support for Windows (including 64-bit)

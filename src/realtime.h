@@ -73,6 +73,7 @@ private:
     // Stores id of shader program
     GLuint m_shader;
 
+    // FBO related data & functions
     void paintTexture(bool togglePerPixel, bool toggleKernelFilter, bool toggleExtraCredit1, bool toggleExtraCredit2);
 
     fbo *m_fboObject;
@@ -87,6 +88,25 @@ private:
     int m_fbo_height;
 
     GLuint m_texture_shader;
+
+    // Normal Mapping Data & functions
+    GLuint m_normalShader;
+
+    // Skybox data and functions
+    GLuint m_skyboxShader;
+    GLuint m_skyboxTextureID;
+
+    GLuint loadCubemap();
+    void paintCubemap(int numTriangles, GLuint &vao);
+
+    std::vector<std::string> m_cubeMapImages = {
+        ":/resources/images/right.png",
+        ":/resources/images/left.png",
+        ":/resources/images/top.png",
+        ":/resources/images/bottom.png",
+        ":/resources/images/front.png",
+        ":/resources/images/back.png"
+    };
 
     int m_width, m_height;
     Camera m_camera;
@@ -113,6 +133,7 @@ private:
     std::vector<Cloth::Particle> m_fixedParticles;
     int m_numParticles = 9;
     float m_mass;
+
 
     enum class SpringType{
         STRUCTURAL,
