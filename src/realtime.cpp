@@ -15,6 +15,9 @@ Realtime::Realtime(QWidget *parent)
     setMouseTracking(true);
     setFocusPolicy(Qt::StrongFocus);
 
+    //CHANGE ADDED 2
+    m_keyMap[Qt::Key_G]       = false;
+    m_keyMap[Qt::Key_B]       = false;
     m_keyMap[Qt::Key_W]       = false;
     m_keyMap[Qt::Key_A]       = false;
     m_keyMap[Qt::Key_S]       = false;
@@ -433,17 +436,18 @@ void Realtime::timerEvent(QTimerEvent *event) {
     float deltaTime = elapsedms * 0.001f;
     m_elapsedTimer.restart();
 
+    Cloth::Particle p1;
+    Cloth::Particle p2;
+    Cloth::Particle p3;
+    Cloth::Particle p4;
+    Cloth::Particle p5;
+    Cloth::Particle p6;
+    Cloth::Particle p7;
+    Cloth::Particle p8;
+    Cloth::Particle p9;
+
     if(m_keyMap[Qt::Key_G] == true){
 
-        Cloth::Particle p1;
-        Cloth::Particle p2;
-        Cloth::Particle p3;
-        Cloth::Particle p4;
-        Cloth::Particle p5;
-        Cloth::Particle p6;
-        Cloth::Particle p7;
-        Cloth::Particle p8;
-        Cloth::Particle p9;
 
         for(glShapeInfo &shapeInfoObj : m_shapesRenderInfo) {
 
@@ -796,6 +800,106 @@ void Realtime::timerEvent(QTimerEvent *event) {
     // Use deltaTime and m_keyMap to move around
     if(m_keyMap[Qt::Key_W]){
         //m_camera.keyMovement(deltaTime, false, true, false);
+        for(glShapeInfo &shapeInfoObj : m_shapesRenderInfo) {
+
+            if(shapeInfoObj.shape == PrimitiveType::PRIMITIVE_CLOTH){ // kind confused by this bc I thought we deleted each object after filling the arrays?
+                // commented out the delete call in va0_vbo for the cloth for now, see line 41 there
+                p1 = shapeInfoObj.vaoObject->m_cloth->getParticle1();
+                p2 = shapeInfoObj.vaoObject->m_cloth->getParticle2();
+                p3 = shapeInfoObj.vaoObject->m_cloth->getParticle3();
+                p4 = shapeInfoObj.vaoObject->m_cloth->getParticle4();
+                p5 = shapeInfoObj.vaoObject->m_cloth->getParticle5();
+                p6 = shapeInfoObj.vaoObject->m_cloth->getParticle6();
+                p7 = shapeInfoObj.vaoObject->m_cloth->getParticle7();
+                p8 = shapeInfoObj.vaoObject->m_cloth->getParticle8();
+                p9 = shapeInfoObj.vaoObject->m_cloth->getParticle9();
+
+                break;
+            }
+
+        }
+        //deltaTime
+        std::vector<float> rowInitialPhases = {0.0f, 0.25f, 0.5f};
+        float windSpeed = 1.2f;
+        float currentTime = elapsedms * 0.001f;
+        float displacement123 = 0.1f * sin(1.0f * (currentTime + rowInitialPhases[0]));
+        float x123delta = displacement123 * deltaTime * windSpeed;
+        glm::vec3 newP2Pos = {p2.position[0] + x123delta, p2.position[1], p2.position[2]};
+        float displacement456 = 0.1f * sin(1.0f * (currentTime + rowInitialPhases[1]));
+        float x456delta = displacement456 * deltaTime * windSpeed;
+        glm::vec3 newP4pos = {p4.position[0] + x456delta, p4.position[1], p4.position[2]};
+        glm::vec3 newP5pos = {p5.position[0] + x456delta, p5.position[1], p5.position[2]};
+        glm::vec3 newP6pos = {p6.position[0] + x456delta, p6.position[1], p6.position[2]};
+        float displacement789 = 0.1f * sin(1.0f * (currentTime + rowInitialPhases[2]));
+        float x789delta = displacement789 * deltaTime * windSpeed;
+        glm::vec3 newP7pos = {p7.position[0] + x789delta, p7.position[1], p7.position[2]};
+        glm::vec3 newP8pos = {p8.position[0] + x789delta, p8.position[1], p8.position[2]};
+        glm::vec3 newP9pos = {p9.position[0] + x789delta, p9.position[1], p9.position[2]};
+
+        m_newPositions.clear();
+
+        insertVec3(m_newPositions, newP2Pos);
+        insertVec3(m_newPositions, newP4pos);
+        insertVec3(m_newPositions, newP5pos);
+        insertVec3(m_newPositions, newP6pos);
+        insertVec3(m_newPositions, newP7pos);
+        insertVec3(m_newPositions, newP8pos );
+        insertVec3(m_newPositions, newP9pos );
+
+        fillVAOs();
+        updateClothWithForce();
+        update();
+    }
+        else if (m_keyMap[Qt::Key_B]){
+            for(glShapeInfo &shapeInfoObj : m_shapesRenderInfo) {
+
+                if(shapeInfoObj.shape == PrimitiveType::PRIMITIVE_CLOTH){ // kind confused by this bc I thought we deleted each object after filling the arrays?
+                    // commented out the delete call in va0_vbo for the cloth for now, see line 41 there
+                    p1 = shapeInfoObj.vaoObject->m_cloth->getParticle1();
+                    p2 = shapeInfoObj.vaoObject->m_cloth->getParticle2();
+                    p3 = shapeInfoObj.vaoObject->m_cloth->getParticle3();
+                    p4 = shapeInfoObj.vaoObject->m_cloth->getParticle4();
+                    p5 = shapeInfoObj.vaoObject->m_cloth->getParticle5();
+                    p6 = shapeInfoObj.vaoObject->m_cloth->getParticle6();
+                    p7 = shapeInfoObj.vaoObject->m_cloth->getParticle7();
+                    p8 = shapeInfoObj.vaoObject->m_cloth->getParticle8();
+                    p9 = shapeInfoObj.vaoObject->m_cloth->getParticle9();
+
+                    break;
+                }
+
+            }
+
+            std::vector<float> rowEndPhases = {0.0f, 0.25f, 0.50f};
+            float currentTime = elapsedms * 0.001f;
+            float windSpeed = 1.2f;
+            float displacement123end = 0.1f * sin(1.0f * (currentTime + rowEndPhases[0]));
+            float x123deltaEnd = displacement123end * deltaTime * windSpeed;
+            glm::vec3 newP2Pos = {p2.position[0] - x123deltaEnd, p2.position[1], p2.position[2]};
+            float displacement456end = 0.1f * sin(1.0f * (currentTime + rowEndPhases[1]));
+            float x456deltaEnd = displacement456end * deltaTime * windSpeed;
+            glm::vec3 newP4pos = {p4.position[0] - x456deltaEnd, p4.position[1], p4.position[2]};
+            glm::vec3 newP5pos = {p5.position[0] - x456deltaEnd, p5.position[1], p5.position[2]};
+            glm::vec3 newP6pos = {p6.position[0] - x456deltaEnd, p6.position[1], p6.position[2]};
+            float displacement789end = 0.1f * sin(1.0f * (currentTime + rowEndPhases[2]));
+            float x789deltaEnd = displacement789end * deltaTime * windSpeed;
+            glm::vec3 newP7pos = {p7.position[0] - x789deltaEnd, p7.position[1], p7.position[2]};
+            glm::vec3 newP8pos = {p8.position[0] - x789deltaEnd, p8.position[1], p8.position[2]};
+            glm::vec3 newP9pos = {p9.position[0] - x789deltaEnd, p9.position[1], p9.position[2]};
+
+            m_newPositions.clear();
+
+            insertVec3(m_newPositions, newP2Pos);
+            insertVec3(m_newPositions, newP4pos);
+            insertVec3(m_newPositions, newP5pos);
+            insertVec3(m_newPositions, newP6pos);
+            insertVec3(m_newPositions, newP7pos);
+            insertVec3(m_newPositions, newP8pos );
+            insertVec3(m_newPositions, newP9pos );
+
+            fillVAOs();
+            updateClothWithForce();
+            update();
 
 
     } else if(m_keyMap[Qt::Key_S]){
