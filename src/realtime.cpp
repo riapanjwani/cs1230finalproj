@@ -459,6 +459,16 @@ void Realtime::timerEvent(QTimerEvent *event) {
                 p8 = shapeInfoObj.vaoObject->m_cloth->getParticle8();
                 p9 = shapeInfoObj.vaoObject->m_cloth->getParticle9();
 
+                m_particles.push_back(p1);
+                m_particles.push_back(p2);
+                m_particles.push_back(p3);
+                m_particles.push_back(p4);
+                m_particles.push_back(p5);
+                m_particles.push_back(p6);
+                m_particles.push_back(p7);
+                m_particles.push_back(p8);
+                m_particles.push_back(p9);
+
                 break;
             }
 
