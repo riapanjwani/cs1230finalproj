@@ -476,86 +476,308 @@ void Realtime::timerEvent(QTimerEvent *event) {
 
         glm::vec3 acceleration = calculateGravity();
 
+
+        p1.acceleration = acceleration;
+        p2.acceleration = acceleration ;
+        p3.acceleration = acceleration;
+        p4.acceleration = acceleration ;
+        p5.acceleration = acceleration ;
+        p6.acceleration = acceleration ;
+        p7.acceleration = acceleration ;
+        p8.acceleration = acceleration ;
+        p9.acceleration = acceleration ;
+
         float springHoriz = 0.325f;
         float springVert = 0.45f;
 
+
+        m_structuralSprings.clear();
         Spring spring14;
         spring14.particle1 = &p1;
         spring14.particle2 = &p4;
         spring14.restLength = springVert;
+        m_structuralSprings.push_back(spring14);
+        float k = 1.0f; //elasticity
+        float p_q = glm::length(spring14.particle2->position - spring14.particle1->position);
+        // glm::vec3 springForce = spring14.restLength > 0.0f ? k *(spring14.restLength - p_q) * glm::normalize(spring14.particle2->position - spring14.particle1->position) : glm::vec3(0.0f);
+        // springForce = springForce ;
+        // p1.position += springForce;
+        // p4.position += (-springForce);
+        glm::vec3 difference = spring14.particle2->position - spring14.particle1->position;
+        glm::vec3 correctionVector = difference * (1.0f - spring14.restLength/p_q);
+        glm::vec3 correctionVectorHalf = correctionVector*0.5f;
+        //p1.position += correctionVectorHalf;
+        p4.position += (-correctionVectorHalf);
+
         Spring spring45;
         spring45.particle1 = &p4;
         spring45.particle2 = &p5;
         spring45.restLength = springHoriz;
+        m_structuralSprings.push_back(spring45);
+        p_q = glm::length(spring45.particle2->position - spring45.particle1->position);
+        // springForce = spring45.restLength > 0.0f ? k *(spring45.restLength - p_q) * glm::normalize(spring45.particle2->position - spring45.particle1->position) : glm::vec3(0.0f);
+        // p4.position += springForce;
+        // p5.position += (-springForce);
+        difference = spring45.particle2->position - spring45.particle1->position;
+        correctionVector = difference * (1.0f - spring45.restLength/p_q);
+        correctionVectorHalf = correctionVector*0.5f;
+        p4.position += correctionVectorHalf;
+        p5.position += (-correctionVectorHalf);
+
         Spring spring25;
         spring25.particle1 = &p2;
         spring25.particle2 = &p5;
         spring25.restLength = springVert;
+        m_structuralSprings.push_back(spring25);
+        p_q = glm::length(spring25.particle2->position - spring25.particle1->position);
+        // springForce = spring25.restLength > 0.0f ? k *(spring25.restLength - p_q) * glm::normalize(spring25.particle2->position - spring25.particle1->position) : glm::vec3(0.0f);
+        // p2.position += springForce;
+        // p5.position += (-springForce);
+        difference = spring25.particle2->position - spring25.particle1->position;
+        correctionVector = difference * (1.0f - spring25.restLength/p_q);
+        correctionVectorHalf = correctionVector*0.5f;
+        p2.position += correctionVectorHalf;
+        p5.position += (-correctionVectorHalf);
+
         Spring spring12;
         spring12.particle1 = &p1;
         spring12.particle2 = &p2;
         spring12.restLength = springHoriz;
+        m_structuralSprings.push_back(spring12);
+        p_q = glm::length(spring12.particle2->position - spring12.particle1->position);
+        // springForce = spring12.restLength > 0.0f ? k *(spring12.restLength - p_q) * glm::normalize(spring12.particle2->position - spring12.particle1->position) : glm::vec3(0.0f);
+        // p1.position += springForce;
+        // p2.position += (-springForce);
+        difference = spring12.particle2->position - spring12.particle1->position;
+        correctionVector = difference * (1.0f - spring12.restLength/p_q);
+        correctionVectorHalf = correctionVector*0.5f;
+        //p1.position += correctionVectorHalf;
+        p2.position += (-correctionVectorHalf);
+
         Spring spring47;
         spring47.particle1 = &p4;
         spring47.particle2 = &p7;
         spring47.restLength = springVert;
+        m_structuralSprings.push_back(spring47);
+        p_q = glm::length(spring47.particle2->position - spring47.particle1->position);
+        // springForce = spring47.restLength > 0.0f ? k *(spring47.restLength - p_q) * glm::normalize(spring47.particle2->position - spring47.particle1->position) : glm::vec3(0.0f);
+        // p4.position += springForce;
+        // p7.position += (-springForce);
+        difference = spring47.particle2->position - spring47.particle1->position;
+        correctionVector = difference * (1.0f - spring47.restLength/p_q);
+        correctionVectorHalf = correctionVector*0.5f;
+        p4.position += correctionVectorHalf;
+        p7.position += (-correctionVectorHalf);
+
         Spring spring78;
         spring78.particle1 = &p7;
-        spring78.particle1 = &p8;
+        spring78.particle2 = &p8;
         spring78.restLength = springHoriz;
+        m_structuralSprings.push_back(spring78);
+        p_q = glm::length(spring78.particle2->position - spring78.particle1->position);
+        // springForce = spring78.restLength > 0.0f ? k *(spring78.restLength - p_q) * glm::normalize(spring78.particle2->position - spring78.particle1->position) : glm::vec3(0.0f);
+        // p7.position += springForce;
+        // p8.position += (-springForce);
+        difference = spring78.particle2->position - spring78.particle1->position;
+        correctionVector = difference * (1.0f - spring78.restLength/p_q);
+        correctionVectorHalf = correctionVector*0.5f;
+        p7.position += correctionVectorHalf;
+        p8.position += (-correctionVectorHalf);
+
         Spring spring58;
         spring58.particle1 = &p5;
         spring58.particle2 = &p8;
         spring58.restLength = springVert;
+        m_structuralSprings.push_back(spring58);
+        p_q = glm::length(spring58.particle2->position - spring58.particle1->position);
+        // springForce = spring58.restLength > 0.0f ? k *(spring58.restLength - p_q) * glm::normalize(spring58.particle2->position - spring58.particle1->position) : glm::vec3(0.0f);
+        // p5.position += springForce;
+        // p8.position += (-springForce);
+        difference = spring58.particle2->position - spring58.particle1->position;
+        correctionVector = difference * (1.0f - spring58.restLength/p_q);
+        correctionVectorHalf = correctionVector*0.5f;
+        p5.position += correctionVectorHalf;
+        p8.position += (-correctionVectorHalf);
+
         Spring spring56;
         spring56.particle1 = &p5;
         spring56.particle2 = &p6;
         spring56.restLength =springHoriz;
+        m_structuralSprings.push_back(spring56);
+        p_q = glm::length(spring56.particle2->position - spring56.particle1->position);
+        // springForce = spring56.restLength > 0.0f ? k *(spring56.restLength - p_q) * glm::normalize(spring56.particle2->position - spring56.particle1->position) : glm::vec3(0.0f);
+        // p5.position += springForce;
+        // p6.position += (-springForce);
+        difference = spring56.particle2->position - spring56.particle1->position;
+        correctionVector = difference * (1.0f - spring56.restLength/p_q);
+        correctionVectorHalf = correctionVector*0.5f;
+        p5.position += correctionVectorHalf;
+        p6.position += (-correctionVectorHalf);
+
         Spring spring36;
         spring36.particle1 = &p3;
         spring36.particle2 = &p6;
         spring36.restLength = springVert;
+        m_structuralSprings.push_back(spring36);
+        p_q = glm::length(spring36.particle2->position - spring36.particle1->position);
+        // springForce = spring36.restLength > 0.0f ? k *(spring36.restLength - p_q) * glm::normalize(spring36.particle2->position - spring36.particle1->position) : glm::vec3(0.0f);
+        // p3.position += springForce;
+        // p6.position += (-springForce);
+        difference = spring36.particle2->position - spring36.particle1->position;
+        correctionVector = difference * (1.0f - spring36.restLength/p_q);
+        correctionVectorHalf = correctionVector*0.5f;
+        //p3.position += correctionVectorHalf;
+        p6.position += (-correctionVectorHalf);
+
         Spring spring23;
         spring23.particle1 = &p2;
         spring23.particle2 = &p3;
         spring23.restLength = springHoriz;
+        m_structuralSprings.push_back(spring23);
+        p_q = glm::length(spring23.particle2->position - spring23.particle1->position);
+        // springForce = spring23.restLength > 0.0f ? k *(spring23.restLength - p_q) * glm::normalize(spring23.particle2->position - spring23.particle1->position) : glm::vec3(0.0f);
+        // p2.position += springForce ;
+        // p3.position += (-springForce);
+        difference = spring23.particle2->position - spring23.particle1->position;
+        correctionVector = difference * (1.0f - spring23.restLength/p_q);
+        correctionVectorHalf = correctionVector*0.5f;
+        p2.position += correctionVectorHalf;
+        //p3.position += (-correctionVectorHalf);
+
         Spring spring89;
         spring89.particle1 = &p8;
         spring89.particle2 = &p9;
         spring89.restLength = springHoriz;
+        m_structuralSprings.push_back(spring89);
+        p_q = glm::length(spring89.particle2->position - spring89.particle1->position);
+        // springForce = spring89.restLength > 0.0f ? k *(spring89.restLength - p_q) * glm::normalize(spring89.particle2->position - spring89.particle1->position) : glm::vec3(0.0f);
+        // p8.position += springForce;
+        // p9.position += (-springForce);
+        difference = spring89.particle2->position - spring89.particle1->position;
+        correctionVector = difference * (1.0f - spring89.restLength/p_q);
+        correctionVectorHalf = correctionVector*0.5f;
+        p8.position += correctionVectorHalf;
+        p9.position += (-correctionVectorHalf);
+
         Spring spring69;
         spring69.particle1 = &p6;
         spring69.particle2 = &p9;
         spring69.restLength = springVert;
+        m_structuralSprings.push_back(spring69);
+        p_q = glm::length(spring69.particle2->position - spring69.particle1->position);
+        // springForce = spring69.restLength > 0.0f ? k *(spring69.restLength - p_q) * glm::normalize(spring69.particle2->position - spring69.particle1->position) : glm::vec3(0.0f);
+        // p6.position += springForce ;
+        // p9.position += (-springForce);
+        difference = spring69.particle2->position - spring69.particle1->position;
+        correctionVector = difference* (1.0f - spring69.restLength/p_q);
+        correctionVectorHalf = correctionVector*0.5f;
+        p6.position += correctionVectorHalf;
+        p9.position += (-correctionVectorHalf);
+        // Spring spring14;
+        // spring14.particle1 = &p1;
+        // spring14.particle2 = &p4;
+        // spring14.restLength = springVert;
+        // Spring spring45;
+        // spring45.particle1 = &p4;
+        // spring45.particle2 = &p5;
+        // spring45.restLength = springHoriz;
+        // Spring spring25;
+        // spring25.particle1 = &p2;
+        // spring25.particle2 = &p5;
+        // spring25.restLength = springVert;
+        // Spring spring12;
+        // spring12.particle1 = &p1;
+        // spring12.particle2 = &p2;
+        // spring12.restLength = springHoriz;
+        // Spring spring47;
+        // spring47.particle1 = &p4;
+        // spring47.particle2 = &p7;
+        // spring47.restLength = springVert;
+        // Spring spring78;
+        // spring78.particle1 = &p7;
+        // spring78.particle1 = &p8;
+        // spring78.restLength = springHoriz;
+        // Spring spring58;
+        // spring58.particle1 = &p5;
+        // spring58.particle2 = &p8;
+        // spring58.restLength = springVert;
+        // Spring spring56;
+        // spring56.particle1 = &p5;
+        // spring56.particle2 = &p6;
+        // spring56.restLength =springHoriz;
+        // Spring spring36;
+        // spring36.particle1 = &p3;
+        // spring36.particle2 = &p6;
+        // spring36.restLength = springVert;
+        // Spring spring23;
+        // spring23.particle1 = &p2;
+        // spring23.particle2 = &p3;
+        // spring23.restLength = springHoriz;
+        // Spring spring89;
+        // spring89.particle1 = &p8;
+        // spring89.particle2 = &p9;
+        // spring89.restLength = springHoriz;
+        // Spring spring69;
+        // spring69.particle1 = &p6;
+        // spring69.particle2 = &p9;
+        // spring69.restLength = springVert;
 
         //verlet integration equation here!!!
-        glm::vec3 p2newPos = {2.0f * p2.position[0] - p2.position[0] + acceleration[0] * (deltaTime * deltaTime),
-                              2.0f * p2.position[1] - p2.oldPosition[1] + acceleration[1] * (deltaTime * deltaTime),
+        glm::vec3 p2newPos = {2.0f * p2.position[0] - p2.oldPosition[0] + p2.acceleration[0] * (deltaTime * deltaTime),
+                              2.0f * p2.position[1] - p2.oldPosition[1] + p2.acceleration[1] * (deltaTime * deltaTime),
                               p2.position[2]};
 
-        glm::vec3 p4newPos = {2.0f * p4.position[0] - p4.position[0] + acceleration[0] * (deltaTime * deltaTime),
-                              2.0f * p4.position[1] - p4.oldPosition[1] + acceleration[1] * (deltaTime * deltaTime),
+        glm::vec3 p4newPos = {2.0f * p4.position[0] - p4.oldPosition[0] + p4.acceleration[0] * (deltaTime * deltaTime),
+                              2.0f * p4.position[1] - p4.oldPosition[1] + p4.acceleration[1] * (deltaTime * deltaTime),
                               p4.position[2]};
 
-        glm::vec3 p5newPos = {2.0f * p5.position[0] - p5.position[0] + acceleration[0] * (deltaTime * deltaTime),
-                              2.0f * p5.position[1] - p5.oldPosition[1] + acceleration[1] * (deltaTime * deltaTime),
+        glm::vec3 p5newPos = {2.0f * p5.position[0] - p5.oldPosition[0]+ p5.acceleration[0] * (deltaTime * deltaTime),
+                              2.0f * p5.position[1] - p5.oldPosition[1] + p5.acceleration[1] * (deltaTime * deltaTime),
                               p5.position[2]};
 
-        glm::vec3 p6newPos = {2.0f * p6.position[0] - p6.position[0] + acceleration[0] * (deltaTime * deltaTime),
-                              2.0f * p6.position[1] - p6.oldPosition[1] + acceleration[1] * (deltaTime * deltaTime),
+        glm::vec3 p6newPos = {2.0f * p6.position[0] - p6.oldPosition[0] + p6.acceleration[0] * (deltaTime * deltaTime),
+                              2.0f * p6.position[1] - p6.oldPosition[1] + p6.acceleration[1] * (deltaTime * deltaTime),
                               p6.position[2]};
 
-        glm::vec3 p7newPos = {2.0f * p7.position[0] - p7.position[0] + acceleration[0] * (deltaTime * deltaTime),
-                              2.0f * p7.position[1] - p7.oldPosition[1] + acceleration[1] * (deltaTime * deltaTime),
+        glm::vec3 p7newPos = {2.0f * p7.position[0] - p7.oldPosition[0] + p7.acceleration[0] * (deltaTime * deltaTime),
+                              2.0f * p7.position[1] - p7.oldPosition[1] +  p7.acceleration[1] * (deltaTime * deltaTime),
                               p7.position[2]};
 
-        glm::vec3 p8newPos = {2.0f * p8.position[0] - p8.position[0] + acceleration[0] * (deltaTime * deltaTime),
-                              2.0f * p8.position[1] - p8.oldPosition[1] + acceleration[1] * (deltaTime * deltaTime),
+        glm::vec3 p8newPos = {2.0f * p8.position[0] - p8.oldPosition[0] + p8.acceleration[0] * (deltaTime * deltaTime),
+                              2.0f * p8.position[1] - p8.oldPosition[1] + p8.acceleration[1] * (deltaTime * deltaTime),
                               p8.position[2]};
 
-        glm::vec3 p9newPos = {2.0f * p9.position[0] - p9.position[0] + acceleration[0] * (deltaTime * deltaTime),
-                              2.0f * p9.position[1] - p9.oldPosition[1] + acceleration[1] * (deltaTime * deltaTime),
+        glm::vec3 p9newPos = {2.0f * p9.position[0] - p9.oldPosition[0] + p9.acceleration[0] * (deltaTime * deltaTime),
+                              2.0f * p9.position[1] - p9.oldPosition[1] + p9.acceleration[1] * (deltaTime * deltaTime),
                               p9.position[2]};
+
+        // glm::vec3 p2newPos = {2.0f * p2.position[0] - p2.position[0] + acceleration[0] * (deltaTime * deltaTime),
+        //                       2.0f * p2.position[1] - p2.oldPosition[1] + acceleration[1] * (deltaTime * deltaTime),
+        //                       p2.position[2]};
+
+        // glm::vec3 p4newPos = {2.0f * p4.position[0] - p4.position[0] + acceleration[0] * (deltaTime * deltaTime),
+        //                       2.0f * p4.position[1] - p4.oldPosition[1] + acceleration[1] * (deltaTime * deltaTime),
+        //                       p4.position[2]};
+
+        // glm::vec3 p5newPos = {2.0f * p5.position[0] - p5.position[0] + acceleration[0] * (deltaTime * deltaTime),
+        //                       2.0f * p5.position[1] - p5.oldPosition[1] + acceleration[1] * (deltaTime * deltaTime),
+        //                       p5.position[2]};
+
+        // glm::vec3 p6newPos = {2.0f * p6.position[0] - p6.position[0] + acceleration[0] * (deltaTime * deltaTime),
+        //                       2.0f * p6.position[1] - p6.oldPosition[1] + acceleration[1] * (deltaTime * deltaTime),
+        //                       p6.position[2]};
+
+        // glm::vec3 p7newPos = {2.0f * p7.position[0] - p7.position[0] + acceleration[0] * (deltaTime * deltaTime),
+        //                       2.0f * p7.position[1] - p7.oldPosition[1] + acceleration[1] * (deltaTime * deltaTime),
+        //                       p7.position[2]};
+
+        // glm::vec3 p8newPos = {2.0f * p8.position[0] - p8.position[0] + acceleration[0] * (deltaTime * deltaTime),
+        //                       2.0f * p8.position[1] - p8.oldPosition[1] + acceleration[1] * (deltaTime * deltaTime),
+        //                       p8.position[2]};
+
+        // glm::vec3 p9newPos = {2.0f * p9.position[0] - p9.position[0] + acceleration[0] * (deltaTime * deltaTime),
+        //                       2.0f * p9.position[1] - p9.oldPosition[1] + acceleration[1] * (deltaTime * deltaTime),
+        //                       p9.position[2]};
 
         m_newPositions.clear();
         insertVec3(m_newPositions, p2newPos);
@@ -573,7 +795,9 @@ void Realtime::timerEvent(QTimerEvent *event) {
 
     // Use deltaTime and m_keyMap to move around
     if(m_keyMap[Qt::Key_W]){
-        m_camera.keyMovement(deltaTime, false, true, false);
+        //m_camera.keyMovement(deltaTime, false, true, false);
+
+
     } else if(m_keyMap[Qt::Key_S]){
         m_camera.keyMovement(-deltaTime, false, true, false);
     } else if(m_keyMap[Qt::Key_A]){
